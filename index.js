@@ -14,8 +14,8 @@ bot.on('ready', ()=>{
 })
 
 bot.on('message', msg =>{
-    var message = msg.content.split(" ")
-    var command = message[0]
+    var args = msg.content.trim().split(" ")
+    var command = args.shift()
     
     if (command === "!listall"){
         players.list.forEach((player)=>{
@@ -25,15 +25,15 @@ bot.on('message', msg =>{
     
     if (command === "twb!rank"){
         players.list.forEach((player)=>{
-            if (player.name == user) {
+            if (player.name == args[0]) {
                 msg.channel.send(`Pontuação de ${player.name}: ${player.points}`)
             }
         })
     }
 
     if (command === "!addPoints"){
-        var user = message[1]
-        var points = message[2]
+        var user = args[0]
+        var points = args[1]
         players.list.forEach((player)=>{
             if (player.name == user) {
                 player.points += parseInt(points)
@@ -44,19 +44,16 @@ bot.on('message', msg =>{
     }
 
     if (command === "!add"){
-
-        message.shift()
-        message.forEach((name)=>{
-            players.list.push({name: name,
-                          points: 0})
+        args.forEach((name)=>{
+            players.list.push({name: name, points: 0})
         })
             msg.reply("Adicionados com sucesso")
             savePlayers()
     }
 
     if (command === "!setPoints"){
-        var user = message[1]
-        var points = message[2]
+        var user = args[0]
+        var points = args[1]
         players.list.forEach((player)=>{
             if (player.name == user) {
                 player.points = parseInt(points)
