@@ -24,7 +24,6 @@ bot.on('message', msg =>{
     }
     
     if (command === "twb!rank"){
-        var user = message[1]
         players.list.forEach((player)=>{
             if (player.name == user) {
                 msg.channel.send(`Pontuação de ${player.name}: ${player.points}`)
@@ -43,7 +42,6 @@ bot.on('message', msg =>{
         })
         savePlayers()
     }
-
 
     if (command === "!add"){
 
