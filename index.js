@@ -4,7 +4,7 @@ const fs = require('fs');
 const bot = new Discord.Client()
 // https://discordapp.com/oauth2/authorize?client_id=738804140112871424&scope=bot&permissions=8
 
-const token = 'NzM4ODA0MTQwMTEyODcxNDI0.XyRO-Q.vpbAHUh91PMU7YEPxCCrUfO7P20'
+const TOKEN = 'NzM4ODA0MTQwMTEyODcxNDI0.XyRO-Q.vpbAHUh91PMU7YEPxCCrUfO7P20'
 
 let rawdata = fs.readFileSync('players.json');
 let players = JSON.parse(rawdata);
@@ -69,7 +69,7 @@ bot.on('message', msg =>{
     }
 });
 
-bot.login(token)
+bot.login(TOKEN)
 
 function savePlayers(){    
     let data = JSON.stringify(players);
