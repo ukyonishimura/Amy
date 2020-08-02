@@ -88,7 +88,7 @@ bot.on('message', async msg => {
 
                 try {
                     players.list.forEach((player) => {
-                        if (player.name == args[0]) {
+                        if (player.name.toUpperCase() == args[0].toUpperCase()) {
                             msg.channel.send(exampleEmbed
                                 .setColor("#fca503")
                                 .setTitle(`Player: ${player.name}`)
@@ -150,7 +150,7 @@ bot.on('message', async msg => {
 
         "remove"() {
             players.list.forEach((player) => {
-                if (player.name == args[0]) {
+                if (player.name.toUpperCase() == args[0].toUpperCase()) {
                     players.list.splice(players.list.indexOf(player), 1);
                 }
             })
