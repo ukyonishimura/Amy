@@ -18,7 +18,7 @@ bot.on('ready', () => {
     console.log('Bot ONLINE!')
 })
 
-bot.on('message', msg => {
+bot.on('message', async msg => {
     const exampleEmbed = new Discord.MessageEmbed()
 
     var args = msg.content.trim().split(" ")
@@ -64,34 +64,41 @@ bot.on('message', msg => {
 
             if (args.length == 0) {
                 var message = ""
-                    // !!!!!!!!!!!!!!!!!!!
+                // !!!!!!!!!!!!!!!!!!!
                 message += `:crown: ${playersOrder[0].name}: ${playersOrder[0].points}:crown:\n`
                 message += `\u200b \u200b \u200b \u200b \u200b \u200b \u200b ${playersOrder[1].name}: ${playersOrder[1].points}\n`
                 message += `\u200b \u200b \u200b \u200b \u200b \u200b \u200b ${playersOrder[2].name}: ${playersOrder[2].points}`
 
-
-                msg.channel.send(exampleEmbed
-                    .setColor("#72f542")
-                    .setAuthor("TWB | TORNEIO")
-                    .addFields(
-                        { name: '\u200b', value: '\u200b', inline: true },
-                        { name: 'Top 3', value: '\u200b', inline: true },
-                        { name: '\u200b', value: '\u200b', inline: true },
-                        { name: `**${message}**`, value: '\u200b' }
-                    )).catch((err)=> console.log(err))
+                try {
+                    await msg.channel.send(exampleEmbed
+                        .setColor("#72f542")
+                        .setAuthor("TWB | TORNEIO")
+                        .addFields(
+                            { name: '\u200b', value: '\u200b', inline: true },
+                            { name: 'Top 3', value: '\u200b', inline: true },
+                            { name: '\u200b', value: '\u200b', inline: true },
+                            { name: `**${message}**`, value: '\u200b' }
+                        ))
+                } catch (error) {
+                    console.log(" 01 ERRO:  " + error)
+                }
 
             } else {
                 let found = false
-                players.list.forEach((player) => {
-                    if (player.name == args[0]) {
-                        msg.channel.send(exampleEmbed
-                            .setColor("#fca503")
-                            .setTitle(`Player: ${player.name}`)
-                            .setDescription(`Posição: ${playersOrder.indexOf(player) + 1}\nVitórias: ${player.wins}\nTorneios ganhos: ${player.tournaments}\nRank points: ${player.points}`))
-                            .catch((err)=>console.log(err))
-                            found = true
-                    }
-                })
+
+                try {
+                    await players.list.forEach((player) => {
+                        if (player.name == args[0]) {
+                            msg.channel.send(exampleEmbed
+                                .setColor("#fca503")
+                                .setTitle(`Player: ${player.name}`)
+                                .setDescription(`Posição: ${playersOrder.indexOf(player) + 1}\nVitórias: ${player.wins}\nTorneios ganhos: ${player.tournaments}\nRank points: ${player.points}`))
+                                found = true
+                        }
+                    })
+                } catch (error) {
+                    console.log(" 02 ERRO: " + error)
+                }
                 if (!found) {
                     msg.channel.send("Este usuário ainda não participou de nenhum Torneio")
                 }
@@ -141,7 +148,7 @@ bot.on('message', msg => {
             msg.channel.send(` \`\`\` ${message}\`\`\``)
         },
 
-        "remove"(){
+        "remove"() {
             players.list.forEach((player) => {
                 if (player.name == args[0]) {
                     players.list.splice(players.list.indexOf(player), 1);
