@@ -78,7 +78,7 @@ bot.on('message', msg => {
                         { name: 'Top 3', value: '\u200b', inline: true },
                         { name: '\u200b', value: '\u200b', inline: true },
                         { name: `**${message}**`, value: '\u200b' }
-                    ))
+                    )).catch((err)=> console.log(err))
 
             } else {
                 let found = false
@@ -88,6 +88,7 @@ bot.on('message', msg => {
                             .setColor("#fca503")
                             .setTitle(`Player: ${player.name}`)
                             .setDescription(`Posição: ${playersOrder.indexOf(player) + 1}\nVitórias: ${player.wins}\nTorneios ganhos: ${player.tournaments}\nRank points: ${player.points}`))
+                            .catch((err)=>console.log(err))
                             found = true
                     }
                 })
