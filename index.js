@@ -65,7 +65,7 @@ bot.on('message', async msg => {
             if (args.length == 0) {
                 var message = ""
                 // !!!!!!!!!!!!!!!!!!!
-                message += `:crown: ${playersOrder[0].name}: ${playersOrder[0].points}:crown:\n`
+                message += `:crown: ${playersOrder[0].name}: ${playersOrder[0].points}\n`
                 message += `\u200b \u200b \u200b \u200b \u200b \u200b \u200b ${playersOrder[1].name}: ${playersOrder[1].points}\n`
                 message += `\u200b \u200b \u200b \u200b \u200b \u200b \u200b ${playersOrder[2].name}: ${playersOrder[2].points}`
 
