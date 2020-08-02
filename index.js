@@ -6,16 +6,17 @@ const bot = new Discord.Client()
 
 const TOKEN = 'NzM4NTE1MTc4MjQ4ODYzODM1.XyNB2w.YLt-G_zm9aZWfszcQm09Z9pg8N8'
 
-let rawdata = fs.readFileSync('players.json');
-let players = JSON.parse(rawdata);
+let rawdata = fs.readFileSync('config.json');
+let config = JSON.parse(rawdata);
 
-var tournament = {
-    date: "0",
-    hour: "14"
-}
+var tournament = config.tournament
+var players = config.players
+var defaultScore = config.defaultScore
+
 
 bot.on('ready', () => {
-    console.log('Bot ONLINE!')
+    let date = new Date()
+    console.log(`Bot ONLINE ! Since ${date.getHours()}:${date.getMinutes()}`)
 })
 
 bot.on('message', async msg => {
@@ -60,7 +61,7 @@ bot.on('message', async msg => {
         },
 
         "rank"() {
-            let playersOrder = players.list.sort(compare)//[i]
+            let playersOrder = players.sort(compare)//[i]
 
             if (args.length == 0) {
                 var message = ""
@@ -87,13 +88,13 @@ bot.on('message', async msg => {
                 let found = false
 
                 try {
-                    players.list.forEach((player) => {
+                    players.forEach((player) => {
                         if (player.name.toUpperCase() == args[0].toUpperCase()) {
                             msg.channel.send(exampleEmbed
                                 .setColor("#fca503")
                                 .setTitle(`Player: ${player.name}`)
                                 .setDescription(`Posição: ${playersOrder.indexOf(player) + 1}\nVitórias: ${player.wins}\nTorneios ganhos: ${player.tournaments}\nRank points: ${player.points}`))
-                                found = true
+                            found = true
                         }
                     })
                 } catch (error) {
@@ -111,23 +112,25 @@ bot.on('message', async msg => {
             let tournaments = 0
             let exists = false
 
-            if (args.length > 0) {
+            if (args.length > 1) {
                 wins += parseInt(args[1])
                 tournaments += parseInt(args[2])
+                points += (wins * defaultScore.wins) + (tournaments * defaultScore.tournaments)
             }
 
-            players.list.forEach((player) => {
-                if (player.name == args[0]) {
+            players.forEach((player) => {
+                if (player.name.toUpperCase() == args[0].toUpperCase()) {
                     player.tournaments += tournaments
                     player.wins += wins
+                    player.points += points
                     exists = true
                 }
             })
 
             if (!exists) {
-                players.list.push({
+                players.push({
                     name: args[0],
-                    points: points, //pontos precisa ser calculado
+                    points: points,
                     wins: wins,
                     tournaments: tournaments
                 })
@@ -136,39 +139,41 @@ bot.on('message', async msg => {
 
 
             msg.reply("Adicionado com sucesso")
-            savePlayers()
+            saveConfig()
         },
 
 
         "list"() {
-            var message = "Lista:\n"
-            players.list.sort(compare).forEach((player) => {
+            var message = "Desempenho nos torneios:\n"
+            players.sort(compare).forEach((player) => {
                 message += ` ${player.name}: ${player.points}\n`
             })
             msg.channel.send(` \`\`\` ${message}\`\`\``)
         },
 
         "remove"() {
-            players.list.forEach((player) => {
+            players.forEach((player) => {
                 if (player.name.toUpperCase() == args[0].toUpperCase()) {
-                    players.list.splice(players.list.indexOf(player), 1);
+                    players.splice(players.indexOf(player), 1);
                 }
             })
-            savePlayers()
+            saveConfig()
         },
 
-        "recalculate"(){
-            players.list.forEach(player => {
-                player.points = (player.wins*40) + (player.tournaments * 150)
-            });
+        "runBackup"() {
+            if (args[0].length > 0) {
+                config.players = JSON.parse(args[0])
+                saveConfig()
+
+                rawdata = fs.readFileSync('config.json');
+                config = JSON.parse(rawdata);
+
+                tournament = config.tournament
+                players = config.players
+                defaultScore = config.defaultScore
+
+            }
         },
-
-        "save"(){
-            savePlayers()
-            msg.channel.send("Salvo com sucesso!")
-        }
-
-
     }
 
     if (command.includes(prefix)) {
@@ -182,9 +187,9 @@ bot.on('message', async msg => {
 
 bot.login(TOKEN)
 
-function savePlayers() {
-    let data = JSON.stringify(players);
-    fs.writeFileSync('players.json', data);
+function saveConfig() {
+    let data = JSON.stringify(config);
+    fs.writeFileSync('config.json', data);
 }
 
 function compare(a, b) {
