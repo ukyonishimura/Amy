@@ -159,7 +159,7 @@ bot.on('message', async msg => {
 
         "recalculate"(){
             players.list.forEach(player => {
-                player.points = (player.wins*40) + (player.tournament * 150)
+                player.points = (player.wins*40) + (player.tournaments * 150)
             });
         },
 
