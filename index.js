@@ -70,7 +70,7 @@ bot.on('message', async msg => {
                 message += `\u200b \u200b \u200b \u200b \u200b \u200b \u200b ${playersOrder[2].name}: ${playersOrder[2].points}`
 
                 try {
-                    await msg.channel.send(exampleEmbed
+                    msg.channel.send(exampleEmbed
                         .setColor("#72f542")
                         .setAuthor("TWB | TORNEIO")
                         .addFields(
@@ -87,7 +87,7 @@ bot.on('message', async msg => {
                 let found = false
 
                 try {
-                    await players.list.forEach((player) => {
+                    players.list.forEach((player) => {
                         if (player.name == args[0]) {
                             msg.channel.send(exampleEmbed
                                 .setColor("#fca503")
