@@ -155,6 +155,17 @@ bot.on('message', async msg => {
                 }
             })
             savePlayers()
+        },
+
+        "recalculate"(){
+            players.list.forEach(player => {
+                player.points = (player.wins*40) + (player.tournament * 150)
+            });
+        },
+
+        "save"(){
+            savePlayers()
+            msg.channel.send("Salvo com sucesso!")
         }
 
 
