@@ -155,6 +155,7 @@ bot.on('message', async msg => {
 
 
             msg.reply("Adicionado com sucesso")
+            msg.delete()
             saveConfig()
         },
 
@@ -164,7 +165,6 @@ bot.on('message', async msg => {
                 message += ` ${player.name}: ${player.points}\n`
             })
             msg.channel.send(` \`\`\` ${message}\`\`\``)
-            msg.delete()
         },
 
         "remove"() {
@@ -174,6 +174,7 @@ bot.on('message', async msg => {
                     msg.channel.send(`${player.name} foi removido.`)
                 }
             })
+            msg.delete()
             saveConfig()
         },
 
