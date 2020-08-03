@@ -3,7 +3,6 @@ const fs = require('fs');
 
 const bot = new Discord.Client()
 
-
 const TOKEN = 'NzM4NTE1MTc4MjQ4ODYzODM1.XyNB2w.YLt-G_zm9aZWfszcQm09Z9pg8N8'
 
 let rawdata = fs.readFileSync('config.json');
@@ -12,7 +11,6 @@ let config = JSON.parse(rawdata);
 var tournament = config.tournament
 var players = config.players
 var defaultScore = config.defaultScore
-
 
 bot.on('ready', () => {
     let date = new Date()
@@ -27,7 +25,7 @@ bot.on('message', async msg => {
 
     const prefix = "twb!"
     var commandList = {
-        "torneio"() {
+        "tournament"() {
             if (tournament.date == "0") {
                 msg.channel.send(exampleEmbed
                     .setDescription("Nenhum torneio programado")
@@ -45,14 +43,15 @@ bot.on('message', async msg => {
         },
 
         "set"() {
-            tournament.date = args[0]
-            tournament.hour = args[1] || tournament.hour
-            if (tournament.date != "0") {
-                msg.channel.send(`Data do torneio alterada para dia **${tournament.date}** às **${tournament.hour}h**`)
+            config.tournament.date = args[0]
+            config.tournament.hour = args[1] || config.tournament.hour
+            if (config.tournament.date != "0") {
+                msg.channel.send(`Data do torneio alterada para dia **${config.tournament.date}** às **${config.tournament.hour}h**`)
             } else {
                 msg.channel.send(`Nenhum torneio programado`)
             }
             msg.delete()
+            saveConfig()
         },
 
         "say"() {
@@ -64,22 +63,39 @@ bot.on('message', async msg => {
             let playersOrder = players.sort(compare)//[i]
 
             if (args.length == 0) {
-                var message = ""
-                // !!!!!!!!!!!!!!!!!!!
-                message += `:crown: ${playersOrder[0].name}: ${playersOrder[0].points}\n`
-                message += `\u200b \u200b \u200b \u200b \u200b \u200b \u200b ${playersOrder[1].name}: ${playersOrder[1].points}\n`
-                message += `\u200b \u200b \u200b \u200b \u200b \u200b \u200b ${playersOrder[2].name}: ${playersOrder[2].points}`
+                var top3 = "[ :fire: REAPER :fire: ]"
+                var top6 = "\n[ :diamonds: EMPEROR:diamonds: ]"
+                var top9 = "\n[ :crown: KING :crown:  ]"
+                var topx = 0
+                if (playersOrder.length > 10) {
+                    topx = 10
+                } else {
+                    topx = playersOrder.length
+                }
+
+                for (let i = 0; i < topx; i++) {
+
+                    if (i == 0) {
+                        top3 += `\n${playersOrder[i].name}`/*: ${playersOrder[i].points}`*/
+                    }
+                    if (i > 0 && i <= 2) {
+                        top3 += `\n${playersOrder[i].name}`/*: ${playersOrder[i].points}`*/
+                    }
+                    if (i > 2 && i <= 5) {
+                        top6 += `\n${playersOrder[i].name}`/*: ${playersOrder[i].points}`*/
+                    }
+                    if (i > 5) {
+                        top9 += `\n${playersOrder[i].name}`/*: ${playersOrder[i].points}`*/
+                    }
+                }
 
                 try {
                     msg.channel.send(exampleEmbed
                         .setColor("#72f542")
-                        .setAuthor("TWB | TORNEIO")
-                        .addFields(
-                            { name: '\u200b', value: '\u200b', inline: true },
-                            { name: 'Top 3', value: '\u200b', inline: true },
-                            { name: '\u200b', value: '\u200b', inline: true },
-                            { name: `**${message}**`, value: '\u200b' }
-                        ))
+                        .setAuthor(`The Walking Brawl | TOP ${topx}`)
+                        .addField(`***${top3}***`, `**${top6}**\n${top9}`,)
+                    )
+                    msg.delete()
                 } catch (error) {
                     console.log(" 01 ERRO:  " + error)
                 }
@@ -142,19 +158,20 @@ bot.on('message', async msg => {
             saveConfig()
         },
 
-
         "list"() {
             var message = "Desempenho nos torneios:\n"
             players.sort(compare).forEach((player) => {
                 message += ` ${player.name}: ${player.points}\n`
             })
             msg.channel.send(` \`\`\` ${message}\`\`\``)
+            msg.delete()
         },
 
         "remove"() {
             players.forEach((player) => {
                 if (player.name.toUpperCase() == args[0].toUpperCase()) {
                     players.splice(players.indexOf(player), 1);
+                    msg.channel.send(`${player.name} foi removido.`)
                 }
             })
             saveConfig()
@@ -171,9 +188,30 @@ bot.on('message', async msg => {
                 tournament = config.tournament
                 players = config.players
                 defaultScore = config.defaultScore
-
+                
             }
         },
+
+        "winner"() {
+            msg.channel.send(`Parabéns a ${args}, ganhador deste Torneio!\nSeu prêmio será enviado em breve, obrigados a todos por terem participado!\n\n{ @everyone @here}`)
+            msg.delete()
+        },
+
+        "open"() {
+            msg.channel.send(`As inscrições para o torneio já estão abertas!!\nInscrições abertas até o dia ${tournament.date}.`)
+            msg.delete()
+        },
+
+        "find"() {
+            // var result = 
+            console.log(findPlayer(args[0]))
+            // if (result.found) {
+            // msg.channel.send(`${result.player.name} encontrado com ${result.player.points}`)
+            // } else {
+            // msg.channel.send("Não encontrado")
+            // }
+            msg.delete()
+        }
     }
 
     if (command.includes(prefix)) {
@@ -200,4 +238,12 @@ function compare(a, b) {
         return -1;
     }
     return 0;
+}
+
+function findPlayer(playerName) {
+    var result = { found: false }
+    players.forEach((player) => {
+        if (playerName.toUpperCase() == player.name.toUpperCase()) result = { player: player, found: false }
+    })
+    return result
 }
