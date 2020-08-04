@@ -43,6 +43,10 @@ bot.on('message', async msg => {
         },
 
         "set"() {
+            if (!msg.member.roles.cache.some(role => role.name === '\ua9c1ঔৣ☬✞OFICIAL✞☬ঔৣ\ua9c2')){
+                return msg.reply("Você não tem permissão para executar este comando")
+            }
+
             config.tournament.date = args[0]
             config.tournament.hour = args[1] || config.tournament.hour
             if (config.tournament.date != "0") {
@@ -55,6 +59,10 @@ bot.on('message', async msg => {
         },
 
         "say"() {
+            if (!msg.member.roles.cache.some(role => role.name === '\ua9c1ঔৣ☬✞OFICIAL✞☬ঔৣ\ua9c2')){
+                return msg.reply("Você não tem permissão para executar este comando")
+            }
+
             msg.channel.send(args.join(" "))
             msg.delete()
         },
@@ -63,6 +71,10 @@ bot.on('message', async msg => {
             let playersOrder = players.sort(compare)//[i]
 
             if (args.length == 0) {
+                if (!msg.member.roles.cache.some(role => role.name === '\ua9c1ঔৣ☬✞OFICIAL✞☬ঔৣ\ua9c2')){
+                    return msg.reply("Você não tem permissão para executar este comando")
+                }
+
                 var top3 = "[ :fire: REAPER :fire: ]"
                 var top6 = "\n[ :diamonds: EMPEROR:diamonds: ]"
                 var top9 = "\n[ :crown: KING :crown:  ]"
@@ -123,6 +135,10 @@ bot.on('message', async msg => {
         },
 
         "add"() {
+            if (!msg.member.roles.cache.some(role => role.name === '\ua9c1ঔৣ☬✞OFICIAL✞☬ঔৣ\ua9c2')){
+                return msg.reply("Você não tem permissão para executar este comando")
+            }
+
             let points = 0
             let wins = 0
             let tournaments = 0
@@ -168,6 +184,10 @@ bot.on('message', async msg => {
         },
 
         "remove"() {
+            if (!msg.member.roles.cache.some(role => role.name === '\ua9c1ঔৣ☬✞OFICIAL✞☬ঔৣ\ua9c2')){
+                return msg.reply("Você não tem permissão para executar este comando")
+            }
+
             players.forEach((player) => {
                 if (player.name.toUpperCase() == args[0].toUpperCase()) {
                     players.splice(players.indexOf(player), 1);
@@ -179,6 +199,10 @@ bot.on('message', async msg => {
         },
 
         "runBackup"() {
+            if (!msg.member.roles.cache.some(role => role.name === '\ua9c1ঔৣ☬✞OFICIAL✞☬ঔৣ\ua9c2')){
+                return msg.reply("Você não tem permissão para executar este comando")
+            }
+
             if (args[0].length > 0) {
                 config.players = JSON.parse(args[0])
                 saveConfig()
@@ -194,11 +218,19 @@ bot.on('message', async msg => {
         },
 
         "winner"() {
+            if (!msg.member.roles.cache.some(role => role.name === '\ua9c1ঔৣ☬✞OFICIAL✞☬ঔৣ\ua9c2')){
+                return msg.reply("Você não tem permissão para executar este comando")
+            }
+
             msg.channel.send(`Parabéns a ${args}, ganhador deste Torneio!\nSeu prêmio será enviado em breve, obrigados a todos por terem participado!\n\n{ @everyone @here}`)
             msg.delete()
         },
 
         "open"() {
+            if (!msg.member.roles.cache.some(role => role.name === '\ua9c1ঔৣ☬✞OFICIAL✞☬ঔৣ\ua9c2')){
+                return msg.reply("Você não tem permissão para executar este comando")
+            }
+
             msg.channel.send(`As inscrições para o torneio já estão abertas!!\nInscrições abertas até o dia ${tournament.date}.`)
             msg.delete()
         },
