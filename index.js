@@ -246,6 +246,9 @@ bot.on('message', async msg => {
         },
 
         "help+"(){
+            if (!msg.member.roles.cache.some(role => role.name === allowedRole)){
+                return msg.reply("Você não tem permissão para executar este comando")
+            }
             msg.channel.send(
                 "**`twb!rank`** = Lista o Top 10 do rank."+
                 "\n**`twb!say [mensagem]`** = Faz o bot falar algo."+
