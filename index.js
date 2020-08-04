@@ -1,9 +1,11 @@
 const Discord = require('discord.js')
 const fs = require('fs');
+require('dotenv').config()
 
 const bot = new Discord.Client()
 
-const TOKEN = 'NzM4NTE1MTc4MjQ4ODYzODM1.XyNB2w.YLt-G_zm9aZWfszcQm09Z9pg8N8'
+const TOKEN = process.env.TOKEN
+var allowedRole =  process.env.ROLE
 
 let rawdata = fs.readFileSync('config.json');
 let config = JSON.parse(rawdata);
@@ -43,7 +45,7 @@ bot.on('message', async msg => {
         },
 
         "set"() {
-            if (!msg.member.roles.cache.some(role => role.name === '\ua9c1ঔৣ☬✞OFICIAL✞☬ঔৣ\ua9c2')){
+            if (!msg.member.roles.cache.some(role => role.name === allowedRole)){
                 return msg.reply("Você não tem permissão para executar este comando")
             }
 
@@ -59,7 +61,7 @@ bot.on('message', async msg => {
         },
 
         "say"() {
-            if (!msg.member.roles.cache.some(role => role.name === '\ua9c1ঔৣ☬✞OFICIAL✞☬ঔৣ\ua9c2')){
+            if (!msg.member.roles.cache.some(role => role.name === allowedRole)){
                 return msg.reply("Você não tem permissão para executar este comando")
             }
 
@@ -71,7 +73,7 @@ bot.on('message', async msg => {
             let playersOrder = players.sort(compare)//[i]
 
             if (args.length == 0) {
-                if (!msg.member.roles.cache.some(role => role.name === '\ua9c1ঔৣ☬✞OFICIAL✞☬ঔৣ\ua9c2')){
+                if (!msg.member.roles.cache.some(role => role.name === allowedRole)){
                     return msg.reply("Você não tem permissão para executar este comando")
                 }
 
@@ -135,7 +137,7 @@ bot.on('message', async msg => {
         },
 
         "add"() {
-            if (!msg.member.roles.cache.some(role => role.name === '\ua9c1ঔৣ☬✞OFICIAL✞☬ঔৣ\ua9c2')){
+            if (!msg.member.roles.cache.some(role => role.name === allowedRole)){
                 return msg.reply("Você não tem permissão para executar este comando")
             }
 
@@ -184,7 +186,7 @@ bot.on('message', async msg => {
         },
 
         "remove"() {
-            if (!msg.member.roles.cache.some(role => role.name === '\ua9c1ঔৣ☬✞OFICIAL✞☬ঔৣ\ua9c2')){
+            if (!msg.member.roles.cache.some(role => role.name === allowedRole)){
                 return msg.reply("Você não tem permissão para executar este comando")
             }
 
@@ -199,7 +201,7 @@ bot.on('message', async msg => {
         },
 
         "runBackup"() {
-            if (!msg.member.roles.cache.some(role => role.name === '\ua9c1ঔৣ☬✞OFICIAL✞☬ঔৣ\ua9c2')){
+            if (!msg.member.roles.cache.some(role => role.name === allowedRole)){
                 return msg.reply("Você não tem permissão para executar este comando")
             }
 
@@ -218,7 +220,7 @@ bot.on('message', async msg => {
         },
 
         "winner"() {
-            if (!msg.member.roles.cache.some(role => role.name === '\ua9c1ঔৣ☬✞OFICIAL✞☬ঔৣ\ua9c2')){
+            if (!msg.member.roles.cache.some(role => role.name === allowedRole)){
                 return msg.reply("Você não tem permissão para executar este comando")
             }
 
@@ -227,7 +229,7 @@ bot.on('message', async msg => {
         },
 
         "open"() {
-            if (!msg.member.roles.cache.some(role => role.name === '\ua9c1ঔৣ☬✞OFICIAL✞☬ঔৣ\ua9c2')){
+            if (!msg.member.roles.cache.some(role => role.name === allowedRole)){
                 return msg.reply("Você não tem permissão para executar este comando")
             }
 
@@ -235,23 +237,34 @@ bot.on('message', async msg => {
             msg.delete()
         },
 
-        "find"() {
-            // var result = 
-            console.log(findPlayer(args[0]))
-            // if (result.found) {
-            // msg.channel.send(`${result.player.name} encontrado com ${result.player.points}`)
-            // } else {
-            // msg.channel.send("Não encontrado")
-            // }
-            msg.delete()
+        "help"(){
+            msg.channel.send(
+                "**`twb!rank [nome]`** = Exibe as informações do jogador informado."+
+                "\n**`twb!list`** = Lista todos os jogadores." +
+                "\n**`twb!tournament`** = Informa quando será o próximo torneio."
+                )
+        },
+
+        "help+"(){
+            msg.channel.send(
+                "**`twb!rank`** = Lista o Top 10 do rank."+
+                "\n**`twb!say [mensagem]`** = Faz o bot falar algo."+
+                "\n**`twb!remove [player]`** = Deleta um player da lista (Não pode ser revertido, use com cautela)"+
+                "\n**`twb!winner [@player]`** = Anuncia quem foi o ganhador do torneio"+
+                "\n**`twb!add [player] [vitorias] [torneios]`** = Adiciona um player à lista (se já existir, irá adicionar os dados informados ao player)"+
+                "\n**`twb!set [data] [horario]`**= Altera a data do torneio (Horario é opcional). Coloque [data] como 0 para cancelar o torneio.")
         }
     }
 
     if (command.includes(prefix)) {
         try {
+            if(msg.author.bot) return
+            if(msg.channel.type == 'dm') return
+
             commandList[command.replace(prefix, "")]()
         } catch (err) {
-            console.log(err)
+            msg.channel.send("Comando não disponivel.\nDigite `twb!help` para ver os comandos.")
+            console.log("ERRO: "+err.message)
         }
     }
 });
@@ -271,12 +284,4 @@ function compare(a, b) {
         return -1;
     }
     return 0;
-}
-
-function findPlayer(playerName) {
-    var result = { found: false }
-    players.forEach((player) => {
-        if (playerName.toUpperCase() == player.name.toUpperCase()) result = { player: player, found: false }
-    })
-    return result
 }
