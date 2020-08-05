@@ -14,6 +14,24 @@ var tournament = config.tournament
 var players = config.players
 var defaultScore = config.defaultScore
 
+var activityList = [
+    {
+        status: "PLAYING",
+        message: "🎮 TORNEIO GLOBAL"
+    },
+    {
+        status: "STREAMING",
+        message: "🎦 DREAMHACK"
+    },
+    {
+        status: "LISTENING",
+        message: "🆘 USE TWB!HELP"
+    },
+    {
+        status: "WATCHING ",
+        message: "👾 THE WALKING BRAWL"
+    }]
+
 bot.on('ready', () => {
     let date = new Date()
     console.log(`Bot ONLINE ! Since ${date.getHours()}:${date.getMinutes()}`)
@@ -272,7 +290,12 @@ bot.on('message', async msg => {
     }
 });
 
-bot.login(TOKEN)
+bot.login(TOKEN).then(() => {
+    setInterval(() => {
+        let activity = activityList[Math.floor(Math.random() * activityList.length)]
+        bot.user.setActivity(activity.message, { type: activity.status })
+    }, 30 * 1000 * 60);
+})
 
 function saveConfig() {
     let data = JSON.stringify(config);
