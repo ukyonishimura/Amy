@@ -20,32 +20,8 @@ var activityList = [
         message: "🎮 TORNEIO GLOBAL"
     },
     {
-        status: "STREAMING",
-        message: "🎦 DREAMHACK"
-    },
-    {
-        status: "LISTENING",
-        message: "🆘 USE TWB!HELP"
-    },
-    {
-        status: "WATCHING ",
-        message: "👾 THE WALKING BRAWL"
-    },
-    {
-        status: "WATCHING ",
-        message: "📺 DEV STREAM"
-    },
-    {
         status: "PLAYING",
         message: "🕹️ BRAWL OF THE WEEK"
-    },
-    {
-        status: "STREAMING",
-        message: "🎥 TORNEIO TWB"
-    },
-    {
-        status: "LISTENING",
-        message: "🎼 NIGHTWISH 🥰"
     },
     {
         status: "PLAYING",
@@ -56,8 +32,24 @@ var activityList = [
         message: "💙 FINAL FANTASY XV"
     },
     {
-        status: "WATCHING",
-        message: "😎 UKYO JOGANDO"
+        status: "STREAMING",
+        message: "🎦 DREAMHACK"
+    },
+    {
+        status: "STREAMING",
+        message: "👾 MINECRAFT"
+    },
+    {
+        status: "STREAMING",
+        message: "🎥 TORNEIO TWB"
+    },
+    {
+        status: "LISTENING",
+        message: "🎼 NIGHTWISH 🥰"
+    },
+    {
+        status: "LISTENING",
+        message: "🆘 USE TWB!HELP"
     },
     {
         status: "LISTENING",
@@ -69,11 +61,19 @@ var activityList = [
     },
     {
         status: "WATCHING",
-        message: "📜 LENDO AS REGRAS DO CLÃ 🤔"
+        message: "👾 THE WALKING BRAWL"
     },
     {
-        status: "STREAMING",
-        message: "👾 MINECRAFT"
+        status: "WATCHING",
+        message: "📺 DEV STREAM"
+    },
+    {
+        status: "WATCHING",
+        message: "😎 UKYO JOGANDO"
+    },
+    {
+        status: "WATCHING",
+        message: "📜 LENDO AS REGRAS DO CLÃ 🤔"
     }]
 
 bot.on('ready', () => {
@@ -81,7 +81,7 @@ bot.on('ready', () => {
     console.log(`Bot ONLINE ! Since ${date.getHours()}:${date.getMinutes()}`)
 })
 
-bot.on('message', async msg => {
+bot.on('message', msg => {
     const exampleEmbed = new Discord.MessageEmbed()
 
     var args = msg.content.trim().split(" ")
