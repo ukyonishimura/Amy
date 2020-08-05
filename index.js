@@ -30,6 +30,50 @@ var activityList = [
     {
         status: "WATCHING ",
         message: "👾 THE WALKING BRAWL"
+    },
+    {
+        status: "WATCHING ",
+        message: "📺 DEV STREAM"
+    },
+    {
+        status: "PLAYING",
+        message: "🕹️ BRAWL OF THE WEEK"
+    },
+    {
+        status: "STREAMING",
+        message: "🎥 TORNEIO TWB"
+    },
+    {
+        status: "LISTENING",
+        message: "🎼 NIGHTWISH 🥰"
+    },
+    {
+        status: "PLAYING",
+        message: "🎮 BRAWLHALLA"
+    },
+    {
+        status: "PLAYING",
+        message: "💙 FINAL FANTASY XV"
+    },
+    {
+        status: "WATCHING",
+        message: "😎 UKYO JOGANDO"
+    },
+    {
+        status: "LISTENING",
+        message: "😜 FAEL LARGA O ROGUE COMPANY E VOLTA PRO BRAWL"
+    },
+    {
+        status: "LISTENING",
+        message: "🎧 SPOTIFY INTERNACIONAIS"
+    },
+    {
+        status: "WATCHING",
+        message: "📜 LENDO AS REGRAS DO CLÃ 🤔"
+    },
+    {
+        status: "STREAMING",
+        message: "👾 MINECRAFT"
     }]
 
 bot.on('ready', () => {
@@ -312,7 +356,7 @@ bot.login(TOKEN).then(() => {
     setInterval(() => {
         let activity = activityList[Math.floor(Math.random() * activityList.length)]
         bot.user.setActivity(activity.message, { type: activity.status })
-    }, 30 * 1000 * 60);
+    }, 5 * 1000 * 60);
 })
 
 function saveConfig() {
