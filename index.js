@@ -32,20 +32,12 @@ var activityList = [
         message: "💙 FINAL FANTASY XV"
     },
     {
-        status: "STREAMING",
-        message: "🎦 DREAMHACK"
-    },
-    {
-        status: "STREAMING",
-        message: "👾 MINECRAFT"
-    },
-    {
-        status: "STREAMING",
-        message: "🎥 TORNEIO TWB"
+        status: "PLAYING",
+        message: "🕹️ TORNEIO TWB"
     },
     {
         status: "LISTENING",
-        message: "🎼 NIGHTWISH 🥰"
+        message: "🎼 NIGHTWISH"
     },
     {
         status: "LISTENING",
@@ -60,11 +52,19 @@ var activityList = [
         message: "🎧 SPOTIFY INTERNACIONAIS"
     },
     {
-        status: "WATCHING",
+        status: "PLAYING",
+        message: "🎦 DREAMHACK"
+    },
+    {
+        status: "PLAYING",
+        message: "👾 MINECRAFT"
+    },
+    {
+        status: "PLAYING",
         message: "👾 THE WALKING BRAWL"
     },
     {
-        status: "WATCHING",
+        status: "LISTENING",
         message: "📺 DEV STREAM"
     },
     {
@@ -356,7 +356,7 @@ bot.login(TOKEN).then(() => {
 
     setInterval(() => {
         let activity = activityList[Math.floor(Math.random() * activityList.length)]
-        bot.user.setActivity(activity.message, { type: activity.status })
+        bot.user.setActivity({ name: activity.message, type: activity.status })
     }, 5 * 1000 * 60);
 })
 
