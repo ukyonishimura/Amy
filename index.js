@@ -5,7 +5,7 @@ require('dotenv').config()
 const bot = new Discord.Client()
 
 const TOKEN = process.env.TOKEN
-var allowedRole =  process.env.ROLE
+var allowedRole = process.env.ROLE
 
 let rawdata = fs.readFileSync('config.json');
 let config = JSON.parse(rawdata);
@@ -63,7 +63,7 @@ bot.on('message', async msg => {
         },
 
         "set"() {
-            if (!msg.member.roles.cache.some(role => role.name === allowedRole)){
+            if (!msg.member.roles.cache.some(role => role.name === allowedRole)) {
                 return msg.reply("Você não tem permissão para executar este comando")
             }
 
@@ -79,7 +79,7 @@ bot.on('message', async msg => {
         },
 
         "say"() {
-            if (!msg.member.roles.cache.some(role => role.name === allowedRole)){
+            if (!msg.member.roles.cache.some(role => role.name === allowedRole)) {
                 return msg.reply("Você não tem permissão para executar este comando")
             }
 
@@ -91,7 +91,7 @@ bot.on('message', async msg => {
             let playersOrder = players.sort(compare)//[i]
 
             if (args.length == 0) {
-                if (!msg.member.roles.cache.some(role => role.name === allowedRole)){
+                if (!msg.member.roles.cache.some(role => role.name === allowedRole)) {
                     return msg.reply("Você não tem permissão para executar este comando")
                 }
 
@@ -155,7 +155,7 @@ bot.on('message', async msg => {
         },
 
         "add"() {
-            if (!msg.member.roles.cache.some(role => role.name === allowedRole)){
+            if (!msg.member.roles.cache.some(role => role.name === allowedRole)) {
                 return msg.reply("Você não tem permissão para executar este comando")
             }
 
@@ -204,7 +204,7 @@ bot.on('message', async msg => {
         },
 
         "remove"() {
-            if (!msg.member.roles.cache.some(role => role.name === allowedRole)){
+            if (!msg.member.roles.cache.some(role => role.name === allowedRole)) {
                 return msg.reply("Você não tem permissão para executar este comando")
             }
 
@@ -219,7 +219,7 @@ bot.on('message', async msg => {
         },
 
         "runBackup"() {
-            if (!msg.member.roles.cache.some(role => role.name === allowedRole)){
+            if (!msg.member.roles.cache.some(role => role.name === allowedRole)) {
                 return msg.reply("Você não tem permissão para executar este comando")
             }
 
@@ -233,12 +233,12 @@ bot.on('message', async msg => {
                 tournament = config.tournament
                 players = config.players
                 defaultScore = config.defaultScore
-                
+
             }
         },
 
         "winner"() {
-            if (!msg.member.roles.cache.some(role => role.name === allowedRole)){
+            if (!msg.member.roles.cache.some(role => role.name === allowedRole)) {
                 return msg.reply("Você não tem permissão para executar este comando")
             }
 
@@ -247,7 +247,7 @@ bot.on('message', async msg => {
         },
 
         "open"() {
-            if (!msg.member.roles.cache.some(role => role.name === allowedRole)){
+            if (!msg.member.roles.cache.some(role => role.name === allowedRole)) {
                 return msg.reply("Você não tem permissão para executar este comando")
             }
 
@@ -255,42 +255,60 @@ bot.on('message', async msg => {
             msg.delete()
         },
 
-        "help"(){
+        "help"() {
             msg.channel.send(
-                "**`twb!rank [nome]`** = Exibe as informações do jogador informado."+
+                "**`twb!rank [nome]`** = Exibe as informações do jogador informado." +
                 "\n**`twb!list`** = Lista todos os jogadores." +
                 "\n**`twb!tournament`** = Informa quando será o próximo torneio."
-                )
+            )
         },
 
-        "help+"(){
-            if (!msg.member.roles.cache.some(role => role.name === allowedRole)){
+        "help+"() {
+            if (!msg.member.roles.cache.some(role => role.name === allowedRole)) {
                 return msg.reply("Você não tem permissão para executar este comando")
             }
             msg.channel.send(
-                "**`twb!rank`** = Lista o Top 10 do rank."+
-                "\n**`twb!say [mensagem]`** = Faz o bot falar algo."+
-                "\n**`twb!remove [player]`** = Deleta um player da lista (Não pode ser revertido, use com cautela)"+
-                "\n**`twb!winner [@player]`** = Anuncia quem foi o ganhador do torneio"+
-                "\n**`twb!add [player] [vitorias] [torneios]`** = Adiciona um player à lista (se já existir, irá adicionar os dados informados ao player)"+
+                "**`twb!rank`** = Lista o Top 10 do rank." +
+                "\n**`twb!say [mensagem]`** = Faz o bot falar algo." +
+                "\n**`twb!remove [player]`** = Deleta um player da lista (Não pode ser revertido, use com cautela)" +
+                "\n**`twb!winner [@player]`** = Anuncia quem foi o ganhador do torneio" +
+                "\n**`twb!add [player] [vitorias] [torneios]`** = Adiciona um player à lista (se já existir, irá adicionar os dados informados ao player)" +
                 "\n**`twb!set [data] [horario]`**= Altera a data do torneio (Horario é opcional). Coloque [data] como 0 para cancelar o torneio.")
+        },
+
+        "points"() {
+            if (!msg.member.roles.cache.some(role => role.name === allowedRole)) {
+                return msg.reply("Você não tem permissão para executar este comando")
+            }
+
+            players.forEach((player) => {
+                if (player.name.toUpperCase() == args[0].toUpperCase()) {
+                    if (args.length > 1) player.points += parseInt(args[1])
+                    msg.channel.send(`Os pontos de ${player.name} foram atualizados!`)
+                    saveConfig()
+                }
+            })
+
+            msg.delete()
         }
     }
 
     if (command.includes(prefix)) {
         try {
-            if(msg.author.bot) return
-            if(msg.channel.type == 'dm') return
+            if (msg.author.bot) return
+            if (msg.channel.type == 'dm') return
 
             commandList[command.replace(prefix, "")]()
         } catch (err) {
             msg.channel.send("Comando não disponivel.\nDigite `twb!help` para ver os comandos.")
-            console.log("ERRO: "+err.message)
+            console.log("ERRO: " + err.message)
         }
     }
 });
 
 bot.login(TOKEN).then(() => {
+    bot.user.setActivity("🎮 Brawlhalla")
+
     setInterval(() => {
         let activity = activityList[Math.floor(Math.random() * activityList.length)]
         bot.user.setActivity(activity.message, { type: activity.status })
