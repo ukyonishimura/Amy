@@ -27,17 +27,16 @@ bot.on('ready', () => {
 })
 
 bot.on('message', msg => {
-
     var args = msg.content.trim().split(" ")
+    if (!args[0].includes(prefix)) return
     var command = args.shift().replace(prefix, "")
-
-    if (!bot.commands.has(command)) return;
-
+    if (!bot.commands.has(command)) return
+    
     try {
-        bot.commands.get(command).execute(msg, args);
+        bot.commands.get(command).execute(msg, args)
     } catch (error) {
-        console.error(error);
-        msg.reply('Comando não disponivel.\nDigite `twb!help` para ver os comandos disponíveis.');
+        console.error(error)
+        msg.reply('Comando não disponivel.\nDigite `twb!help` para ver os comandos disponíveis.')
     }
 });
 
