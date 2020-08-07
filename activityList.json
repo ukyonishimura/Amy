@@ -6,19 +6,11 @@
         },
         {
             "status": "PLAYING",
-            "message": "🕹️ BRAWL OF THE WEEK"
-        },
-        {
-            "status": "PLAYING",
             "message": "🎮 BRAWLHALLA"
         },
         {
             "status": "PLAYING",
             "message": "💙 FINAL FANTASY XV"
-        },
-        {
-            "status": "PLAYING",
-            "message": "🕹️ TORNEIO TWB"
         },
         {
             "status": "LISTENING",
@@ -27,10 +19,6 @@
         {
             "status": "LISTENING",
             "message": "🆘 USE TWB!HELP"
-        },
-        {
-            "status": "LISTENING",
-            "message": "😜 FAEL LARGA O ROGUE COMPANY E VOLTA PRO BRAWL"
         },
         {
             "status": "LISTENING",
@@ -45,20 +33,8 @@
             "message": "👾 MINECRAFT"
         },
         {
-            "status": "PLAYING",
-            "message": "👾 THE WALKING BRAWL"
-        },
-        {
             "status": "LISTENING",
             "message": "📺 DEV STREAM"
-        },
-        {
-            "status": "WATCHING",
-            "message": "😎 UKYO JOGANDO"
-        },
-        {
-            "status": "WATCHING",
-            "message": "📜 LENDO AS REGRAS DO CLÃ 🤔"
         }
     ]
 }
