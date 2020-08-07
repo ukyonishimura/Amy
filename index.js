@@ -3,9 +3,8 @@ const fs = require('fs')
 require('dotenv').config()
 
 const bot = new Discord.Client()
-bot.commands = new Discord.Collection()
-
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'))
+bot.commands = new Discord.Collection()
 
 for (const file of commandFiles) {
     const command = require(`./commands/${file}`)
@@ -13,13 +12,27 @@ for (const file of commandFiles) {
 }
 
 const prefix = "twb!"
-let rawdata = fs.readFileSync('config.json')
-let rawActivity = fs.readFileSync('activityList.json')
-
+const rawdata = fs.readFileSync('config.json')
+const rawActivity = fs.readFileSync('activityList.json')
 const config = JSON.parse(rawdata)
 const activityList = JSON.parse(rawActivity).list
+
 module.exports.config = config
 module.exports.allowedRole = process.env.ROLE
+module.exports.saveConfig = function saveConfig() {
+    let data = JSON.stringify(config);
+    fs.writeFileSync('config.json', data);
+}
+
+module.exports.compare = function compare(a, b) {
+    if (a.points < b.points) {
+        return 1;
+    }
+    if (a.points > b.points) {
+        return -1;
+    }
+    return 0;
+}
 
 bot.on('ready', () => {
     let date = new Date()
@@ -49,17 +62,3 @@ bot.login(process.env.TOKEN).then(() => {
     }, 5 * 1000 * 60);
 })
 
-exports.saveConfig = function saveConfig() {
-    let data = JSON.stringify(config);
-    fs.writeFileSync('config.json', data);
-}
-
-exports.compare = function compare(a, b) {
-    if (a.points < b.points) {
-        return 1;
-    }
-    if (a.points > b.points) {
-        return -1;
-    }
-    return 0;
-}
