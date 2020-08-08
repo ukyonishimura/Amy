@@ -1,10 +1,10 @@
 module.exports = {
     name: 'rank',
-    description: "rank!",
+    description: "**`twb!rank`** = Lista o Top 10 do rank com o melhor desempenho.",    
+    needsPermission: true,
     execute(msg, args) {
         const { config, compare, allowedRole } = require('../index.js');
         const Discord = require('discord.js')
-
 
         let playersOrder = config.players.sort(compare)
 
@@ -70,6 +70,5 @@ module.exports = {
                 msg.channel.send("Este player ainda não participou de nenhum Torneio!")
             }
         }
-
     }
 }

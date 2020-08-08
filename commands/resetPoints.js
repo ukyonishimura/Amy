@@ -1,6 +1,7 @@
 module.exports = {
     name: 'resetPoints',
-    description: "points!",
+    description: "**`twb!resetPoints`** = Reseta a pontuação de todos os players registrados. Use com cuidado!",
+    needsPermission: true,
     execute(msg, args) {
         const { config, allowedRole, saveConfig } = require('../index.js');
 

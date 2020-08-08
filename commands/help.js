@@ -1,12 +1,18 @@
 module.exports = {
     name: 'help',
-    description: "help!",
+    description: "**`twb!help`** = Exibe esta mensagem de ajuda!",
+    needsPermission: false,
     execute(msg, args) {
+        const fs = require('fs')
 
-        msg.channel.send(
-            "**`twb!rank [nome]`** = Exibe as informações do jogador informado." +
-            "\n**`twb!list`** = Lista todos os jogadores." +
-            "\n**`twb!tournament`** = Informa quando será o próximo torneio."
-        )
+        let message = ""
+        const commandFiles = fs.readdirSync(__dirname).filter(file => file.endsWith('.js'))
+        for (const file of commandFiles) {
+            const command = require(`./${file}`)
+            if (!command.needsPermission) {
+                message += `\n:small_orange_diamond: ${command.description}`
+            }
+        }
+        msg.channel.send(message + "\n:small_orange_diamond: **`twb!rank [nome]`** = Exibe mais detalhes sobre o jogador informado.")
     }
 }

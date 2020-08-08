@@ -1,6 +1,7 @@
 module.exports = {
     name: 'tournament',
-    description: 'torneio!',
+    description: "**`twb!tournament`** = Informa quando será o próximo torneio.",
+    needsPermission: false,
     execute(msg, args) {
         const { config } = require('../index.js');
         const Discord = require('discord.js')

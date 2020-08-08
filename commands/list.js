@@ -1,6 +1,7 @@
 module.exports = {
     name: 'list',
-    description: 'Lista todos os players registrados!',
+    description: "**`twb!list`** = Lista todos os jogadores registrados.",
+    needsPermission: false,
     execute(msg, args) {
         const {config, compare} = require('../index.js')
 

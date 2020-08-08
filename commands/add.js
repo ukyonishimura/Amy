@@ -1,19 +1,20 @@
 module.exports = {
     name: 'add',
-    description: "add!",
+    description: "**`twb!add [player] [vitorias] [torneios]`** = Adiciona um player à lista (se já existir, irá adicionar os dados informados ao player).",
+    needsPermission: true,
     execute(msg, args) {
         const { config, allowedRole, saveConfig } = require('../index.js');
-        const Discord = require('discord.js')
 
         if (!msg.member.roles.cache.some(role => role.name === allowedRole)) {
             return msg.reply("Você não tem permissão para executar este comando!")
         }
-
+        
         let points = 0
         let wins = 0
         let tournaments = 0
         let exists = false
-
+        
+        if (args.length == 0 ) return
         if (args.length > 1) {
             wins += parseInt(args[1])
             tournaments += parseInt(args[2])
