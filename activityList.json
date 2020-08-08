@@ -2,39 +2,35 @@
     [
         {
             "status": "PLAYING",
-            "message": "🎮 TORNEIO GLOBAL"
-        },
-        {
-            "status": "PLAYING",
             "message": "🎮 BRAWLHALLA"
         },
         {
-            "status": "PLAYING",
-            "message": "💙 FINAL FANTASY XV"
+            "status": "LISTENING",
+            "message": "🥰 NIGHTWISH"
         },
         {
             "status": "LISTENING",
-            "message": "🎼 NIGHTWISH"
+            "message": "😙 USE TWB!HELP"
         },
         {
             "status": "LISTENING",
-            "message": "🆘 USE TWB!HELP"
-        },
-        {
-            "status": "LISTENING",
-            "message": "🎧 SPOTIFY INTERNACIONAIS"
+            "message": "💤 Spotify Internacionais"
         },
         {
             "status": "PLAYING",
-            "message": "🎦 DREAMHACK"
-        },
-        {
-            "status": "PLAYING",
-            "message": "👾 MINECRAFT"
+            "message": "✨😉 THE WALKING BRAWL"
         },
         {
             "status": "LISTENING",
-            "message": "📺 DEV STREAM"
+            "message": "💕 Bryan 🥰"
+        },
+        {
+            "status": "WATCHING",
+            "message": "😜 Ukyo"
+        },
+        {
+            "status": "WATCHING",
+            "message": "📜 LENDO AS REGRAS DO CLÃ 🤔"
         }
     ]
 }
